@@ -2,7 +2,6 @@ package com.mygdx.match;
 
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
-import com.mygdx.match.Match;
 
 // Please note that on macOS your application needs to be started with the -XstartOnFirstThread JVM argument
 public class DesktopLauncher {
@@ -10,9 +9,9 @@ public class DesktopLauncher {
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 
 		config.setTitle("MATCH");
-		config.setWindowedMode(400, 600);
+		config.setWindowedMode(350, 350);
 		config.useVsync(true);
 		config.setForegroundFPS(60);
-		new Lwjgl3Application(new Match(), config);
+		new Lwjgl3Application(new MatchGame(), config);
 	}
-}
+}/**/
