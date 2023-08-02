@@ -1,6 +1,7 @@
 package com.mygdx.match;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.IntArray;
 
 import java.util.Random;
@@ -14,7 +15,7 @@ public class DotMatrix {
     PatternGenerator patGen;
     PatternSearch patSearch;
 
-
+    SpriteBatch sb;
     int patCapacity;
     int currPatSize;
     int patLimit;
@@ -52,6 +53,7 @@ public class DotMatrix {
         availableInts.add(4,5,6);
         availableInts.add(7,8,9);
         rand = new Random();
+        sb = new SpriteBatch();
 
         //patGen = new PatternGenerator();
         //pattern = patGen.getPattern();

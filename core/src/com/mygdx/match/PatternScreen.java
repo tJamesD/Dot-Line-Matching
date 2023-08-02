@@ -83,6 +83,7 @@ public class PatternScreen implements Screen {
             System.out.println("+++++++++++++++++++++++++++++");
             System.out.println("+++++++++++++++++++++++++++++");
             //ScreenUtils.clear(0,0,0,0);
+            Gdx.gl.glClearColor(0,0,0,0);
             //font.dispose();
             //sb.dispose();
             game.setScreen(new MatchScreen(game, dM.getPattern(), dM));

@@ -124,4 +124,8 @@ public class Dot {
         return isTouched;
     }
 
+    public boolean getIsPattern() {
+        return isPattern;
+    }
+
 }
