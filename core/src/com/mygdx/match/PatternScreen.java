@@ -3,6 +3,7 @@ package com.mygdx.match;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -22,6 +23,8 @@ public class PatternScreen implements Screen {
     BitmapFont font;
     MatchGame game;
     SpriteBatch sb;
+
+    SpriteBatch textBatch;
     Texture touch;
 
     Texture noTouch;
@@ -37,6 +40,7 @@ public class PatternScreen implements Screen {
         this.game = game;
         //super(game);
         sb = new SpriteBatch();
+        textBatch = new SpriteBatch();
         touch = new Texture("touch.png");
         noTouch = new Texture("noTouch.png");
         cam = new OrthographicCamera();
@@ -59,13 +63,18 @@ public class PatternScreen implements Screen {
         viewport.apply();
         //sb.setProjectionMatrix(cam.combined);
 
-        sb.begin();
+        //textBatch.begin();
         //font.dispose();
-        font.draw(sb, "COUNT: " + correctCount, 10, 20);
-        //font.dispose();
-        sb.end();
+        //font.draw(textBatch, "COUNT: " + correctCount, 10, 20);
+
+        //textBatch.end();
+        //textBatch.dispose();
 
         //font.dispose();
+        game.batch.begin();
+        game.font.draw(game.batch,"COUNT: " + game.getCorrectCount(), 10,20);
+        game.batch.end();
+
         if(!dM.isPatComplete()) {
             dM.draw();
             dM.showPattern(delta);
@@ -82,10 +91,14 @@ public class PatternScreen implements Screen {
             System.out.println("+++++++++++++++++++++++++++++");
             System.out.println("+++++++++++++++++++++++++++++");
             System.out.println("+++++++++++++++++++++++++++++");
-            //ScreenUtils.clear(0,0,0,0);
+            ScreenUtils.clear(0,0,0,0);
             Gdx.gl.glClearColor(0,0,0,0);
-            //font.dispose();
+            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+            font.dispose();
+            //textBatch.dispose();
+            //stage.clear();
             //sb.dispose();
+            //game.batch.dispose();
             game.setScreen(new MatchScreen(game, dM.getPattern(), dM));
         }
     }

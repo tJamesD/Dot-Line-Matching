@@ -1,6 +1,5 @@
 package com.mygdx.match;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -9,7 +8,6 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Circle;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.IntArray;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -19,7 +17,7 @@ public class MatchScreen implements Screen {
 
 	BitmapFont font;
 
-	MatchGame matchGame;
+	MatchGame game;
 
 	IntArray givenPattern;
 
@@ -51,8 +49,8 @@ public class MatchScreen implements Screen {
 
 	DotMatrix dM;
 
-	public MatchScreen(MatchGame matchGame, IntArray pattern, DotMatrix dM) {
-		this.matchGame = matchGame;
+	public MatchScreen(MatchGame game, IntArray pattern, DotMatrix dM) {
+		this.game = game;
 		this.givenPattern = pattern;
 		userPattern = new IntArray(givenPattern.size);
 		uPIndex = 0;
@@ -138,14 +136,19 @@ public class MatchScreen implements Screen {
 	public void render (float delta) {
 
 
-
+		cam.update();
 		//viewport.apply();
+
+		game.batch.begin();
+		game.font.draw(game.batch,"COUNT: " + game.getCorrectCount(), 10,20);
+		game.batch.end();
 		dM.draw();
 
 		if(checkPattern()) {
-			correctCount++;
+			//correctCount++;
+			game.updateCorrectCount();
 			//ScreenUtils.clear(0, 0, 0, 0);
-			matchGame.setScreen(new PatternScreen(matchGame, correctCount));
+			game.setScreen(new PatternScreen(game, correctCount));
 		}
 		//ScreenUtils.clear(0, 0, 0, 1);
 		//camera.update();
@@ -258,7 +261,7 @@ public class MatchScreen implements Screen {
 
 	@Override
 	public void show() {
-
+		ScreenUtils.clear(0, 0, 0, 1);
 	}
 
 	@Override
