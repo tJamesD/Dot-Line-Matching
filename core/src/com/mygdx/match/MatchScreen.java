@@ -2,6 +2,7 @@ package com.mygdx.match;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -134,13 +135,15 @@ public class MatchScreen implements Screen {
 
 	@Override
 	public void render (float delta) {
-
+		System.out.println("MSRENDERMS");
+		System.out.println("MSRENDERMS");
 
 		cam.update();
 		//viewport.apply();
 
 		game.batch.begin();
-		game.font.draw(game.batch,"COUNT: " + game.getCorrectCount(), 10,20);
+//		game.font.draw(game.batch,"COUNTMS: " + game.getCorrectCount(), 10,20);
+		game.font.draw(game.batch,"COUNTMS: " + game.getCorrectCount(), 100,20);
 		game.batch.end();
 		dM.draw();
 
@@ -148,7 +151,9 @@ public class MatchScreen implements Screen {
 			//correctCount++;
 			game.updateCorrectCount();
 			//ScreenUtils.clear(0, 0, 0, 0);
-			game.setScreen(new PatternScreen(game, correctCount));
+			//game.setScreen(new PatternScreen(game, correctCount));
+			game.updatePS();
+			game.setScreen(game.pS);
 		}
 		//ScreenUtils.clear(0, 0, 0, 1);
 		//camera.update();
@@ -261,7 +266,12 @@ public class MatchScreen implements Screen {
 
 	@Override
 	public void show() {
-		ScreenUtils.clear(0, 0, 0, 1);
+		System.out.println("SHOWWWWWWWWWWWWWWWWWWWWWW");
+		System.out.println("SHOWWWWWWWWWWWWWWWWWWWWWW");
+		System.out.println("SHOWWWWWWWWWWWWWWWWWWWWWW");
+		System.out.println("SHOWWWWWWWWWWWWWWWWWWWWWW");
+		//ScreenUtils.clear(0, 0, 0, 1);
+		//Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 	}
 
 	@Override

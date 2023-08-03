@@ -72,7 +72,7 @@ public class PatternScreen implements Screen {
 
         //font.dispose();
         game.batch.begin();
-        game.font.draw(game.batch,"COUNT: " + game.getCorrectCount(), 10,20);
+        game.font.draw(game.batch,"PSCOUNT: " + game.getCorrectCount(), 10,20);
         game.batch.end();
 
         if(!dM.isPatComplete()) {
@@ -99,10 +99,15 @@ public class PatternScreen implements Screen {
             //stage.clear();
             //sb.dispose();
             //game.batch.dispose();
-            game.setScreen(new MatchScreen(game, dM.getPattern(), dM));
+            //game.setScreen(new MatchScreen(game, dM.getPattern(), dM));
+              game.updateMS();
+              game.setScreen(game.mS);
         }
     }
 
+    public DotMatrix getDM() {
+        return dM;
+    }
 
     @Override
     public void resize(int width, int height) {
@@ -112,7 +117,7 @@ public class PatternScreen implements Screen {
 
     @Override
     public void show() {
-
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
     }
 
     @Override
