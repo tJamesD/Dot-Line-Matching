@@ -104,11 +104,11 @@ public class PatternSearch {
         if(currPatLength<currGenLimit) {
             patternReset();
             genPattern();
-            System.out.println("PATTERNIF: " + pattern.toString());
+            System.out.println("PATTERNSEARCHIF: " + pattern.toString());
 
         }
 
-        System.out.println("PATTERN: " + pattern.toString());
+        System.out.println("PATTERNSEARCH: " + pattern.toString());
 
     }
 
@@ -204,6 +204,14 @@ public class PatternSearch {
             return grid[2][2];
         }
         return errorCell;
+    }
+
+    public int getCurrGenLimit() {
+        return currGenLimit;
+    }
+
+    public void increaseCurrGenLimit() {
+        currGenLimit++;
     }
 
 }

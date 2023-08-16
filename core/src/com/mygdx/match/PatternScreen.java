@@ -35,21 +35,27 @@ public class PatternScreen implements Screen {
 
     int correctCount;
 
+    boolean firstRun;
 
-    public PatternScreen( MatchGame game, int cc) {
+
+    public PatternScreen( MatchGame game, int cc, DotMatrix dM) {
         this.game = game;
         //super(game);
         sb = new SpriteBatch();
         textBatch = new SpriteBatch();
         touch = new Texture("touch.png");
         noTouch = new Texture("noTouch.png");
+        //this.cam = game.cam;
         cam = new OrthographicCamera();
         cam.setToOrtho(false,350, 350);
         //cam.setToOrtho(true,350, 350);
         viewport = new FitViewport(350,350, cam);
         cam.update();
 
-        dM = new DotMatrix();
+        firstRun = true;
+
+        //dM = new DotMatrix();
+        this.dM = dM;
         correctCount = cc;
         font = new BitmapFont();
         //ScreenUtils.clear(0, 0, 0, 0);
@@ -58,6 +64,7 @@ public class PatternScreen implements Screen {
     @Override
     public void render(float delta) {
         //ScreenUtils.clear(0, 0, 0, 0);
+        //System.out.println("PSRENDERPS");
         cam.update();
         sb.setProjectionMatrix(cam.combined);
         viewport.apply();
@@ -71,15 +78,19 @@ public class PatternScreen implements Screen {
         //textBatch.dispose();
 
         //font.dispose();
-        game.batch.begin();
-        game.font.draw(game.batch,"PSCOUNT: " + game.getCorrectCount(), 10,20);
-        game.batch.end();
+//        game.batch.begin();
+//        game.font.draw(game.batch,"COUNT: " + game.getCorrectCount(), 10,20);
+//        game.batch.end();
 
+        //System.out.println("PATCOMPLETE: " + dM.patComplete);
         if(!dM.isPatComplete()) {
+            //System.out.println("PATCOMPLETEIF: " + dM.patComplete);
             dM.draw();
             dM.showPattern(delta);
-            //System.out.println("Not COMPLETE");
-            //System.out.println("COMPLETE not");
+//            System.out.println("Not COMPLETE");
+//            System.out.println("COMPLETE not");
+//            System.out.println("Not COMPLETE");
+//            System.out.println("COMPLETE not");
 
 
             //cam.update();
@@ -100,8 +111,11 @@ public class PatternScreen implements Screen {
             //sb.dispose();
             //game.batch.dispose();
             //game.setScreen(new MatchScreen(game, dM.getPattern(), dM));
-              game.updateMS();
-              game.setScreen(game.mS);
+            dM.resetPatcomplete();
+            firstRun = false;
+            game.updateMS();
+            dM.resetArrows();
+            game.setScreen(game.mS);
         }
     }
 
@@ -118,7 +132,24 @@ public class PatternScreen implements Screen {
     @Override
     public void show() {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        ScreenUtils.clear(0,0,0,0);
+        System.out.println("PSSHOW");
+        //dM.resetPatcomplete();
+        //dM.genNewPattern();
+        //System.out.println("PATCOMPLETE:  " + dM.patComplete);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        dM.unCode();
+        if(!firstRun) {
+            dM.unCode();
+            dM.resetDeltaTime();
+            dM.genNewPattern();
+            System.out.println("GENPATTERNDONE");
+            dM.printIsTouchIsPattern();
+
+        }
+
     }
+
 
     @Override
     public void hide() {

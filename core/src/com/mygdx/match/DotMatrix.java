@@ -1,6 +1,7 @@
 package com.mygdx.match;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.IntArray;
 
@@ -16,6 +17,7 @@ public class DotMatrix {
     PatternSearch patSearch;
 
     SpriteBatch sb;
+    BitmapFont font;
     int patCapacity;
     int currPatSize;
     int patLimit;
@@ -27,6 +29,8 @@ public class DotMatrix {
 
     float DT;
     float cDT;
+
+    int CC;
 
     Random rand;
 
@@ -54,6 +58,7 @@ public class DotMatrix {
         availableInts.add(7,8,9);
         rand = new Random();
         sb = new SpriteBatch();
+        font = new BitmapFont();
 
         //patGen = new PatternGenerator();
         //pattern = patGen.getPattern();
@@ -95,14 +100,21 @@ public class DotMatrix {
         cDT = Gdx.graphics.getDeltaTime();
         curDrawIndex = 0;
 
+        CC = 0;
+        sendCurrentPattern();
+
     }
 
     public void draw() {
         for(int i = 0;i< dotMatrix.length ; i++) {
             for(int j=0; j<dotMatrix[0].length; j++) {
                 dotMatrix[i][j].draw();
+                sb.begin();
+                font.draw(sb, "COUNT: " + CC, 10, 20);
+                sb.end();
             }
         }
+
     }
 
     public void showPattern(float dt) {
@@ -114,6 +126,7 @@ public class DotMatrix {
         //System.out.println();
 
         if(cDT > 1) {
+            System.out.println("SP1");
             deCode(pattern.get(curDrawIndex));
             cDT = 0;
             curDrawIndex++;
@@ -121,10 +134,12 @@ public class DotMatrix {
 
         if(curDrawIndex > currPatSize) {
             patComplete = true;
+            System.out.println("SP2");
         }
 
         if(curDrawIndex >= pattern.size) {
             curDrawIndex = 0;
+            System.out.println("SP3");
         }
 
 
@@ -166,6 +181,7 @@ public class DotMatrix {
         for(int r = 0; r<dotMatrix.length; r++) {
             for(int c = 0; c<dotMatrix[0].length; c++) {
                 dotMatrix[r][c].reset();
+                dotMatrix[r][c].resetTouchArrow();
             }
         }
     }
@@ -179,7 +195,85 @@ public class DotMatrix {
         return patComplete;
     }
 
+    public void resetPatcomplete() {
+        patComplete = false;
+    }
+
     public IntArray getPattern() {
         return pattern;
+    }
+
+    public void genNewPattern() {
+        unCode();
+        patSearch.patternReset();
+        patSearch.genPattern();
+        patComplete = false;
+        curDrawIndex = 0;
+        pattern = patSearch.getPatternOneAdded();
+        sendCurrentPattern();
+        //updateCurrPatSize();
+    }
+
+    public void resetDeltaTime() {
+        DT = Gdx.graphics.getDeltaTime();
+        cDT = Gdx.graphics.getDeltaTime();
+    }
+
+    public void printIsTouchIsPattern() {
+        for(int r = 0; r<dotMatrix.length; r++) {
+            for (int c = 0; c < dotMatrix[0].length; c++) {
+                System.out.println("R: " + r + "C: " + c + " " + dotMatrix[r][c].getIsTouched());
+                System.out.println("R: " + r + "C: " + c + " " + dotMatrix[r][c].getIsPattern());
+            }
+        }
+    }
+
+    public void updateCC() {
+        CC++;
+    }
+
+    public void updateCurrPatSize() {
+        if(CC == 5 ) {
+            currPatSize = 4;
+            patSearch.increaseCurrGenLimit();
+        }
+        if(CC == 10 ) {
+            currPatSize = 5;
+            patSearch.increaseCurrGenLimit();
+        }
+        if(CC == 15 ) {
+            currPatSize = 6;
+            patSearch.increaseCurrGenLimit();
+        }
+        if(CC == 20 ) {
+            currPatSize = 7;
+            patSearch.increaseCurrGenLimit();
+        }
+        if(CC == 25 ) {
+            currPatSize = 8;
+            patSearch.increaseCurrGenLimit();
+        }
+        if(CC == 30 ) {
+            currPatSize = 9;
+            patSearch.increaseCurrGenLimit();
+        }
+
+    }
+
+    public void sendCurrentPattern() {
+        for(int r = 0; r<dotMatrix.length; r++) {
+            for(int c = 0; c<dotMatrix[0].length;c++) {
+                dotMatrix[r][c].setCurrentPattern(pattern);
+            }
+        }
+    }
+
+    public void resetArrows() {
+        for(int r = 0; r<dotMatrix.length; r++) {
+            for(int c = 0; c<dotMatrix[0].length;c++) {
+                dotMatrix[r][c].resetTouchArrow();
+                System.out.println("RESETTOUCHARROW");
+            }
+        }
     }
 }

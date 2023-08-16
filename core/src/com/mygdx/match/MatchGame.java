@@ -1,8 +1,13 @@
 package com.mygdx.match;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
+
+import javax.swing.text.View;
 
 public class MatchGame extends Game {
 
@@ -16,14 +21,20 @@ public class MatchGame extends Game {
 
     public DotMatrix dM;
 
+    public OrthographicCamera cam;
+    public Viewport viewport;
+
     int correctCount;
     public void create() {
         batch = new SpriteBatch();
         font = new BitmapFont();
         correctCount = 0;
         dM = new DotMatrix();
-        pS = new PatternScreen(this, 0);
-        mS = new MatchScreen(this, pS.dM.getPattern(), pS.getDM());
+        pS = new PatternScreen(this, 0, dM);
+        mS = new MatchScreen(this, dM);
+        //cam = new OrthographicCamera();
+        //cam.setToOrtho(false, 350, 350);
+        //viewport = new FitViewport(350,350,cam);
         //this.setScreen(new MatchScreen(this));
         //this.setScreen(new PatternScreen(this,0));
         this.setScreen(pS);
@@ -40,11 +51,11 @@ public class MatchGame extends Game {
     }
 
     public void updatePS() {
-        pS = new PatternScreen(this, correctCount);
+        //pS = new PatternScreen(this, correctCount);
     }
 
     public void updateMS() {
-        mS = new MatchScreen(this,pS.dM.getPattern(), pS.getDM());
+        //mS = new MatchScreen(this,pS.dM.getPattern(), pS.getDM());
     }
 
     public void updateCorrectCount() {
